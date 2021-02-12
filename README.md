@@ -24,6 +24,8 @@ $ php -S 0.0.0.0:8000
 
 Now you can the link on the browser and you will see the application running!
 
+![application](./assets/images/base.png)
+
 <br>
 
 ## :v: Greetz

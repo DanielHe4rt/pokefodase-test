@@ -38,7 +38,7 @@ $cssUrl = "https://bootswatch.com/4/" . $type['theme'] . "/bootstrap.min.css";
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
     <div class="container">
-        <a class="navbar-brand" href="#">Navbar</a>
+        <a class="navbar-brand" href="#">PokéFodase - By danielhe4rt</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01"
                 aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -46,12 +46,6 @@ $cssUrl = "https://bootswatch.com/4/" . $type['theme'] . "/bootstrap.min.css";
 
         <div class="collapse navbar-collapse" id="navbarColor01">
             <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home
-                        <span class="sr-only">(current)</span>
-                    </a>
-                </li>
-
             </ul>
             <ul class="navbar-nav my-2 my-lg-0">
                 <li class="nav-item">

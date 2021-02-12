@@ -1,3 +1,30 @@
+<?php
+require('./Services/PokeService.php');
+require('./Services/OpenWeatherService.php');
+require('./helpers.php');
+
+
+$pokeApi = new PokeService();
+$weatherApi = new OpenWeatherService();
+
+$weatherResult = [];
+$pokeInfo = [];
+$type = [
+    'theme' => 'cosmo'
+];
+
+if (isset($_GET['city'])) {
+    $city = $_GET['city'];
+    $weatherResult = $weatherApi->getWeatherByCity($city);
+    $type = getPokemonType($weatherResult);
+    $pokemonList = $pokeApi->getPokemonsByType($type['type']);
+    $randomPokemon = $pokemonList[rand(0, count($pokemonList) - 1)]['pokemon'];
+    $pokeInfo = $pokeApi->getPokemonByName($randomPokemon['name']);
+
+}
+$cssUrl = "https://bootswatch.com/4/" . $type['theme'] . "/bootstrap.min.css";
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -6,7 +33,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Pokéfodase</title>
-    <link rel="stylesheet" href="https://bootswatch.com/4/yeti/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= $cssUrl ?>">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
@@ -42,8 +69,11 @@
     <div class="row justify-content-center">
         <div class="col-6">
             <div class="card">
-                <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/12ecb7ae-7059-48df-a4f8-2e3fb7858606/d47rmjf-de88a574-49c8-4dcf-9df4-7e11722e8bec.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwic3ViIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsImF1ZCI6WyJ1cm46c2VydmljZTpmaWxlLmRvd25sb2FkIl0sIm9iaiI6W1t7InBhdGgiOiIvZi8xMmVjYjdhZS03MDU5LTQ4ZGYtYTRmOC0yZTNmYjc4NTg2MDYvZDQ3cm1qZi1kZTg4YTU3NC00OWM4LTRkY2YtOWRmNC03ZTExNzIyZThiZWMucG5nIn1dXX0.qQtrPbihCWTTF7bQl9cQzUVnPw_yhtVNHAWcDgQV8k4"
+                <img src="<?= $pokeInfo['sprites']['front_default'] ?? './assets/images/placeholder.png' ?>"
                      class="card-img-top" alt="...">
+                <?= $pokeInfo['name'] ? "<div class='alert alert-primary text-center' style='color: white; font-size: 16px;'>" . ucfirst($pokeInfo['name']) . "</div>" : "" ?>
+                <?= $weatherResult['weather'] ? "<div class='text-center'> <span class='badge badge-primary'>" . implode(', ', $weatherResult['weather']) . "</span></div>" : "" ?>
+                <?= $weatherResult['raining'] ? "<div class='text-center'> <span class='badge badge-primary'> TÁ CHOVENDO PRA KRL</span></div>" : "" ?>
                 <div class="card-body">
                     <h5 class="card-title text-center">Pokéfodase Weather Map</h5>
                     <form>
